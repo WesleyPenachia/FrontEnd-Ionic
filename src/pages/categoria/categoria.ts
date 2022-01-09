@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { CategoriaService } from '../../services/domain/categoria.service';
 
 /**
  * Generated class for the CategoriaPage page.
@@ -15,11 +16,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CategoriaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public categoriaService : CategoriaService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CategoriaPage');
+    this.categoriaService.findAll()
+      .subscribe(Response => {
+        console.log(Response);
+      },
+      error =>{
+        console.log(error);
+      })
   }
-
 }
