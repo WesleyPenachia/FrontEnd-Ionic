@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 export class ErrorInterceptor implements HttpInterceptor{
   
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-        console.log ("Passou")
+       // console.log ("Passou")
         return next.handle(req)
                 .pipe(
                     catchError(error => {
