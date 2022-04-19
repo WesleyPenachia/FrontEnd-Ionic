@@ -4,6 +4,7 @@ import { API_CONFIG } from '../../config/api.config';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { StorageService } from '../../services/storage.service';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @IonicPage()
 @Component({
@@ -13,12 +14,15 @@ import { StorageService } from '../../services/storage.service';
 export class ProfilePage {
 
   cliente : ClienteDTO;
+  picture : string;
+  cameraOn : boolean = false;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public storage: StorageService,
-    public clienteService : ClienteService) {
+    public clienteService : ClienteService,
+    private camera : Camera) {
   }
 
   ionViewDidLoad() {
@@ -48,4 +52,21 @@ export class ProfilePage {
     error => {});
   }
 
+  getCameraPicture(){
+
+    this.cameraOn = true;
+
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+    
+    this.camera.getPicture(options).then((imageData) => {
+     this.picture = 'data:image/png;base64,' + imageData;
+     this.cameraOn = false;
+    }, (err) => {
+    });
+  }
 }
